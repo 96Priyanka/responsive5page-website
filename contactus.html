@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" >
+</head>
+<body>
+    <div class=" container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand mx-auto" href="#">CAFE COFFEE</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+              <ul class="navbar-nav mx-auto">
+                <li class="nav-item active">
+                  <a class="nav-link" href="home.html">Home </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="aboutus.html">AboutUs</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="Services.html">Services</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="gallery.html">Gallery</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="contactus.html">ContactUs</a>
+                </li>
+                </ul>
+            </div>
+          </nav>
+          
+          <!--- nav bar end-->
+          
+    </div>
+  <div class="container my-3">
+    <div class="row">
+        <div class="col-lg-2 col-md-2"></div>
+        <div class="col-lg-8 col-md-8 col-12">
+    <form id="form" class="form">
+        <h2>Contact Us</h2>
+        <div class="form-con">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter Username">
+            <small>Error Message</small>
+        </div>
+        <div class="form-con">
+            <label for="email">Email</label>
+            <input type="text" id="email" placeholder="Enter email">
+            <small>Error Message</small>
+        </div>
+        <div class="form-con">
+            <label for="phone">phone</label>
+            <input type="phone" id="phone" placeholder="Enter phone">
+            <small>Error Message</small>
+        </div>
+        <div class="form-con">
+            <label for="msg">massege</label>
+            <input type="text" id="msg" placeholder="Enter massege">
+            <small>Error Message</small>
+        </div>
+        <button>Submit</button>
+    </form>
+    <div class="col-lg-2 col-md-2"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" ></script>
+
+<script>
+  const form = document.getElementById('form');
+const username = document.getElementById('username');
+const email = document.getElementById('email');
+const phone = document.getElementById('phone');
+const msg = document.getElementById('msg');
+
+//Show input error messages
+function showError(input, message) {
+    const formControl = input.parentElement;
+    formControl.className = 'form-con error';
+    const small = formControl.querySelector('small');
+    small.innerText = message;
+}
+
+//show success colour
+function showSucces(input) {
+    const formControl = input.parentElement;
+    formControl.className = 'form-con success';
+}
+
+//check email is valid
+function checkEmail(input) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if(re.test(input.value.trim())) {
+        showSucces(input)
+    }else {
+        showError(input,'Email is not invalid');
+    }
+}
+
+
+//checkRequired fields
+function checkRequired(inputArr) {
+    inputArr.forEach(function(input){
+        if(input.value.trim() === ''){
+            showError(input,`${getFieldName(input)} is required`)
+        }else {
+            showSucces(input);
+        }
+    });
+}
+
+
+//check input Length
+function checkLength(input, min ,max) {
+    if(input.value.length < min) {
+        showError(input, `${getFieldName(input)} must be at least ${min} characters`);
+    }else if(input.value.length > max) {
+        showError(input, `${getFieldName(input)} must be les than ${max} characters`);
+    }else {
+        showSucces(input);
+    }
+}
+
+//get FieldName
+function getFieldName(input) {
+    return input.id.charAt(0).toUpperCase() + input.id.slice(1);
+}
+
+// check passwords match
+/*function checkPasswordMatch(input1, input2) {
+    if(input1.value !== input2.value) {
+        showError(input2, 'Passwords do not match');
+    }
+}*/
+
+
+//Event Listeners
+form.addEventListener('submit',function(e) {
+    e.preventDefault();
+
+    checkRequired([username, email, phone, msg]);
+    checkLength(username,3,15);
+    checkLength(phone,6,25);
+    checkEmail(email);
+    checkPasswordMatch(msg);
+});
+</script>
+  
+</body>
+</html>
